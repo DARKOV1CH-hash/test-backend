@@ -1,11 +1,11 @@
-FROM php:8.3-fpm-alpine
+FROM php:8.4-fpm-alpine
 
-RUN apk add --no-cache \
-    nginx \
-    supervisor \
-    curl \
+RUN apk add --no-cache nginx supervisor curl libpng-dev oniguruma-dev libxml2-dev \
     && docker-php-ext-install pdo pdo_mysql \
-    && pecl install redis && docker-php-ext-enable redis
+    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del .build-deps
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 

@@ -15,7 +15,7 @@ services:
       DB_PASSWORD: secret
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      PARTNER_API_URL: http://mock:8080/partner
+      PARTNER_API_URL: http://mock:1080/partner
     depends_on:
       mysql:
         condition: service_healthy
@@ -47,9 +47,10 @@ services:
   mock:
     image: mockserver/mockserver:latest
     ports:
-      - "8080:8080"
+      - "8080:1080"
     environment:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/mock.json
+      MOCKSERVER_SERVER_PORT: 1080
     volumes:
       - ./docker/mock.json:/config/mock.json
 

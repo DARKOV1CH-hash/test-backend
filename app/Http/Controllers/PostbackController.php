@@ -27,11 +27,10 @@ class PostbackController extends Controller
 
         $dedupeKey = $this->dedupeKey($clickId, $event, $amount);
 
-        if (Redis::exists($dedupeKey)) {
+        // Atomic SET NX — prevents race condition on concurrent identical requests
+        if (!Redis::set($dedupeKey, 1, 'EX', 86400, 'NX')) {
             return response()->json(['status' => 'duplicate', 'message' => 'Event already received']);
         }
-
-        Redis::setex($dedupeKey, 86400, 1);
 
         $postback = Postback::create([
             'click_id' => $clickId,
