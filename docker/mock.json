@@ -1,0 +1,15 @@
+[
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/partner"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": "{\"status\":\"ok\"}"
+    }
+  }
+]
